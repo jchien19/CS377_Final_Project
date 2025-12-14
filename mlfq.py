@@ -326,4 +326,3 @@ class RoundRobinScheduler:
                 completed.append(job)
         
         return completed, MetricCalculator.calculate_metrics(completed)
-    

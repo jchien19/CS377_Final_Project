@@ -1,5 +1,6 @@
 from typing import List
 from mlfq import MLFQScheduler, STCFScheduler, RoundRobinScheduler, FIFOScheduler, SJFScheduler, Job
+from cfs import CFSScheduler
 
 def calculate_jains_fairness(values: List[float]) -> float:
     """
@@ -22,7 +23,8 @@ def compare_schedulers(jobs: List[Job]):
         'STCF': STCFScheduler(),
         'Round Robin': RoundRobinScheduler(time_quantum=2),
         'FIFO': FIFOScheduler(),
-        'SJF': SJFScheduler()
+        'SJF': SJFScheduler(),
+        'CFS': CFSScheduler()
     }
     
     print("=" * 80)
