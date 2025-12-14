@@ -39,7 +39,6 @@ def compare_schedulers(jobs: List[Job]):
         print(f"  Jain's Fairness Index (response): {calculate_jains_fairness(metrics['response_times']):.4f}")
 
 
-# Example usage and tests
 if __name__ == "__main__":
     # Test 1: Simple jobs with same arrival time
     print("\nTest 1: Jobs arriving at same time")
@@ -69,7 +68,7 @@ if __name__ == "__main__":
         jobs3.append(Job(i+2, 10 + i*5, 5, 5))
     compare_schedulers(jobs3)
     
-    # Test 4: MLFQ Priority behavior demonstration
+    # Test 4: MLFQ Priority behavior
     print("\n" + "=" * 80)
     print("\nTest 4: MLFQ Priority Behavior")
     jobs4 = [
@@ -109,7 +108,7 @@ if __name__ == "__main__":
     for i in range(0, min(40, len(metrics_io['timeline'])), 1):
         time, job_id, priority, status = metrics_io['timeline'][i]
         if job_id >= 0 or status == "IDLE":
-            if status == "IO_START":
+            if status == "IO":
                 print(f"  Time {time:3d}: Job {job_id} at Priority {priority} - {status} (relinquished CPU)")
             elif status == "IDLE":
                 print(f"  Time {time:3d}: IDLE (waiting for I/O)")

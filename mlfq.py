@@ -123,7 +123,7 @@ class MLFQScheduler:
                     current_job = None
                     cpu_time_used = 0
                 else:
-                    # Rule 4: check if job exhausted time allotment at current level
+                    # Check if job exhausted time allotment at current level
                     if current_job.time_in_queue >= self.time_allotments[current_job.priority]:
                         # If so, demote to lower priority
                         current_job.priority = min(current_job.priority + 1, self.num_queues - 1)
@@ -135,7 +135,7 @@ class MLFQScheduler:
                     cpu_time_used = 0
             
             # Select next job, search for highest job in queues, otherwise round robin within same priority
-            # if there are no more jobs, current_job remains None
+            # If there are no more jobs, current_job remains None
             if not current_job:
                 for priority in range(self.num_queues):
                     if self.queues[priority]:
@@ -193,7 +193,7 @@ class MLFQScheduler:
             current_job.priority = 0
             current_job.time_in_queue = 0
         
-        # Put all back in with highest priority
+        # Put all jobs back in with highest priority
         for job in all_jobs:
             self.queues[0].append(job)
 
