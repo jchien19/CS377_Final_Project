@@ -1,19 +1,8 @@
 from typing import List
-<<<<<<< HEAD
-
-from mlfq import MLFQScheduler, STCFScheduler, RoundRobinScheduler, FIFOScheduler, SJFScheduler, Job
-from cfs import CFSScheduler
-
-from mlfq import MLFQScheduler
-from baselines import FIFOScheduler, SJFScheduler, STCFScheduler, RoundRobinScheduler
-from job import Job
-
-=======
 from mlfq import MLFQScheduler
 from baselines import FIFOScheduler, SJFScheduler, STCFScheduler, RoundRobinScheduler
 from job import Job
 from cfs import CFSScheduler
->>>>>>> c226a10b122f76c4358bb1e6fa0d0afedb8a6685
 
 def calculate_jains_fairness(values: List[float]) -> float:
     """
@@ -82,58 +71,5 @@ if __name__ == "__main__":
     for i in range(5):
         jobs3.append(Job(i+2, 10 + i*5, 5, 5))
     compare_schedulers(jobs3)
-    
-    # Test 4: MLFQ Priority behavior
-    print("\n" + "=" * 80)
-    print("\nTest 4: MLFQ Priority Behavior")
-    jobs4 = [
-        Job(1, 0, 20, 20),
-        Job(2, 5, 5, 5),
-        Job(3, 10, 5, 5)
-    ]
-    
-    mlfq = MLFQScheduler(num_queues=3, boost_interval=None)
-    completed, metrics = mlfq.schedule(jobs4)
-    
-    print("\nMLFQ Execution Timeline (time, job_id, priority_level, status):")
-    for i in range(0, min(30, len(metrics['timeline'])), 1):
-        time, job_id, priority, status = metrics['timeline'][i]
-        if job_id >= 0:
-            print(f"  Time {time:3d}: Job {job_id} at Priority {priority} - {status}")
-    
-    print(f"\n  Average Turnaround Time: {metrics['avg_turnaround']:.2f}")
-    print(f"  Average Response Time: {metrics['avg_response']:.2f}")
-    print(f"  Jain's Fairness Index (turnaround): {calculate_jains_fairness(metrics['turnaround_times']):.4f}")
-    print(f"  Jain's Fairness Index (response): {calculate_jains_fairness(metrics['response_times']):.4f}")
-    
-    # Test 5: MLFQ with I/O operations (job relinquishes CPU but stays at same priority)
-    print("\n" + "=" * 80)
-    print("\nTest 5: MLFQ with I/O Operations (No demotion on I/O)")
-    jobs5 = [
-        Job(1, 0, 20, 20, io_operations=[5, 10, 15], io_duration=3),  # Job with I/O
-        Job(2, 2, 10, 10),  # CPU-bound job
-        Job(3, 5, 8, 8)     # CPU-bound job
-    ]
-    
-    mlfq_io = MLFQScheduler(num_queues=3, time_quantum=[2, 4, 8], boost_interval=None)
-    completed_io, metrics_io = mlfq_io.schedule(jobs5)
-    
-    print("\nMLFQ with I/O Timeline (first 40 time units):")
-    print("Note: Job 1 performs I/O at CPU times 5, 10, 15 but stays at same priority")
-    for i in range(0, min(40, len(metrics_io['timeline'])), 1):
-        time, job_id, priority, status = metrics_io['timeline'][i]
-        if job_id >= 0 or status == "IDLE":
-            if status == "IO":
-                print(f"  Time {time:3d}: Job {job_id} at Priority {priority} - {status} (relinquished CPU)")
-            elif status == "IDLE":
-                print(f"  Time {time:3d}: IDLE (waiting for I/O)")
-            else:
-                print(f"  Time {time:3d}: Job {job_id} at Priority {priority} - {status}")
-    
-    print(f"\n  Average Turnaround Time: {metrics_io['avg_turnaround']:.2f}")
-    print(f"  Average Response Time: {metrics_io['avg_response']:.2f}")
-    print(f"  Jain's Fairness Index (turnaround): {calculate_jains_fairness(metrics_io['turnaround_times']):.4f}")
-    print(f"  Jain's Fairness Index (response): {calculate_jains_fairness(metrics_io['response_times']):.4f}")
-    
     
     print("\n" + "=" * 80)

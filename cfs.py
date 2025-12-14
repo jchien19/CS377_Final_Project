@@ -1,7 +1,7 @@
 """
 Completely Fair Scheduler (CFS) Implementation
 
-CFS is the default Linux process scheduler (since kernel 2.6.23).
+CFS is the default Linux process scheduler.
 The key idea: give every process a "fair" share of the CPU.
 
 How it works:
@@ -17,7 +17,7 @@ Example with 2 jobs (A and B):
 - Time 3: A(vruntime=2), B(vruntime=1) -> pick B
 - ... and so on, alternating fairly
 
-This is simpler than real Linux CFS which uses:
+Ours is simpler than real Linux CFS which uses:
 - Red-black trees for O(log n) selection
 - Nice values/weights for priority
 - Target latency and minimum granularity
@@ -25,7 +25,7 @@ This is simpler than real Linux CFS which uses:
 
 import copy
 from typing import List, Dict, Tuple
-from mlfq import Job, MetricCalculator 
+from job import Job, MetricCalculator
 
 
 class CFSScheduler:
@@ -63,8 +63,6 @@ class CFSScheduler:
         waiting_jobs = sorted(jobs, key=lambda x: x.arrival_time)
         
         
-        # VRUNTIME: The core of CFS
-        
         # vruntime tracks how much CPU time each job has "fairly" received
         # Lower vruntime = job deserves more CPU time
         # Dictionary: job_id -> vruntime value
@@ -77,8 +75,6 @@ class CFSScheduler:
         #  MAIN SCHEDULING LOOP
         
         while waiting_jobs or ready_jobs:
-            
-            
             # Add newly arrived jobs to ready queue
             
             # When a new job arrives, give it the minimum vruntime of all
@@ -102,7 +98,7 @@ class CFSScheduler:
                 continue
             
             
-            #  Pick the job with LOWEST vruntime
+            # Pick the job with LOWEST vruntime
             # the least CPU time so far
 
             job = min(ready_jobs, key=lambda j: vruntime[j.job_id])
@@ -117,12 +113,12 @@ class CFSScheduler:
             job.remaining_time -= 1
             current_time += 1
             
-            # INCREASE vruntime as the job uses CPU
+            # Increase vruntime as the job uses CPU
             # This makes other jobs more likely to be picked next
             vruntime[job.job_id] += 1
             
             
-            #  Check for new arrivals during execution
+            # Check for new arrivals during execution
            
             while waiting_jobs and waiting_jobs[0].arrival_time <= current_time:
                 new_job = waiting_jobs.pop(0)
@@ -131,8 +127,8 @@ class CFSScheduler:
                 ready_jobs.append(new_job)
             
             
-            #  Check if job completed
-            
+            # Check if job completed
+
             if job.remaining_time == 0:
                 job.completion_time = current_time
                 completed.append(job)
