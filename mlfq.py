@@ -34,11 +34,12 @@ class MLFQScheduler:
         waiting_jobs = sorted(jobs, key=lambda x: x.arrival_time)
         io_jobs = []  # Jobs waiting for IO to complete
         current_job = None
-        quantum_remaining = 0
+        quantum_remaining = 0 # Time left in current job's quantum
         cpu_time_used = 0  # Track how much CPU time current job has used
         
         timeline = []  # For visualization
         
+        # Main scheduling loop
         while waiting_jobs or any(self.queues) or current_job or io_jobs:
             # Priority boost if enough time has passed
             if self.boost_interval and self.time_since_boost >= self.boost_interval:
