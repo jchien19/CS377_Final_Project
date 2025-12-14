@@ -149,7 +149,7 @@ class MLFQScheduler:
         # Put all jobs back in with highest priority
         for job in all_jobs:
             self.queues[0].append(job)
-<<<<<<< HEAD
+
 
 
 class FIFOScheduler:
@@ -280,6 +280,6 @@ class RoundRobinScheduler:
                 completed.append(job)
         
         return completed, MetricCalculator.calculate_metrics(completed)
-=======
+
     
->>>>>>> 47db1fa6a92ebaca20afc3e85e8dc6abf59ccea7
+
