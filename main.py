@@ -1,12 +1,8 @@
 from typing import List
-<<<<<<< HEAD
-from mlfq import MLFQScheduler, STCFScheduler, RoundRobinScheduler, FIFOScheduler, SJFScheduler, Job
-from cfs import CFSScheduler
-=======
 from mlfq import MLFQScheduler
 from baselines import FIFOScheduler, SJFScheduler, STCFScheduler, RoundRobinScheduler
 from job import Job
->>>>>>> 47db1fa6a92ebaca20afc3e85e8dc6abf59ccea7
+from cfs import CFSScheduler
 
 def calculate_jains_fairness(values: List[float]) -> float:
     """
