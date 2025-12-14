@@ -6,7 +6,7 @@ from job import Job, MetricCalculator
 class MLFQScheduler:
     """Multi-Level Feedback Queue Scheduler"""
     
-    def __init__(self, num_queues=3, time_quantum=None, time_allotments=None, boost_interval=None):
+    def __init__(self, num_queues=3, time_quantum=None, time_allotments=None, boost_interval=20):
         """
         Args:
             num_queues: Number of priority queues
